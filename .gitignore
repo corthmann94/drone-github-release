@@ -8,3 +8,5 @@ plugin/.DS_Store
 .DS_Store
 
 plugin/release/macOS/arm64/drone-github-release
+
+cmd/drone-github-release/release/linux/amd64/drone-github-release
