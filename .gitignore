@@ -2,3 +2,9 @@
 /drone-github-release*
 
 coverage.out
+
+plugin/.DS_Store
+
+.DS_Store
+
+plugin/release/macOS/arm64/drone-github-release

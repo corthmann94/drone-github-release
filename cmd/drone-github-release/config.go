@@ -99,5 +99,11 @@ func settingsFlags(settings *plugin.Settings) []cli.Flag {
 			EnvVars:     []string{"PLUGIN_OVERWRITE", "GITHUB_RELEASE_OVERWRIDE"},
 			Destination: &settings.Overwrite,
 		},
+		&cli.BoolFlag{
+			Name:        "generate-release-notes",
+			Usage:       "generate a default set of notes for the release (appended to the content specified in the note field)",
+			EnvVars:     []string{"PLUGIN_GENERATE_RELEASE_NOTES", "GITHUB_RELEASE_GENERATE_RELEASE_NOTES"},
+			Destination: &settings.GenerateReleaseNotes,
+		},
 	}
 }
