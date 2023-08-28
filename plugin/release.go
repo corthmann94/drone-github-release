@@ -161,7 +161,7 @@ func (rc *releaseClient) newRelease() (*github.RepositoryRelease, error) {
 		fmt.Printf("The artifact URL is %s\n", u.String())
 
 		// Append the link to the artifact to the release note
-		*rr.Body = *rr.Body + u.String()
+		*rr.Body = *rr.Body + "\n[JFrog Artifactory artifact - version " + b + "](" + u.String() + ")"
 	}
 
 	release, _, err := rc.Client.Repositories.CreateRelease(rc.Context, rc.Owner, rc.Repo, rr)
