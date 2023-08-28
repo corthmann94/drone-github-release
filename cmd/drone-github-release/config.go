@@ -105,5 +105,11 @@ func settingsFlags(settings *plugin.Settings) []cli.Flag {
 			EnvVars:     []string{"PLUGIN_GENERATE_RELEASE_NOTES", "GITHUB_RELEASE_GENERATE_RELEASE_NOTES"},
 			Destination: &settings.GenerateReleaseNotes,
 		},
+		&cli.StringFlag{
+			Name:        "artifact-url",
+			Usage:       "the base url used to generate the path to the artifact referenced by the release (this url will be appended with the base version name)",
+			EnvVars:     []string{"PLUGIN_ARTIFACT_URL", "GITHUB_RELEASE_ARTIFACT_URL"},
+			Destination: &settings.ArtifactUrl,
+		},
 	}
 }

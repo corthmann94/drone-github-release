@@ -34,6 +34,7 @@ type Settings struct {
 	Note                 string
 	Overwrite            bool
 	GenerateReleaseNotes bool
+	ArtifactUrl          string
 
 	baseURL   *url.URL
 	uploadURL *url.URL
@@ -85,6 +86,10 @@ func (p *Plugin) Validate() error {
 		if p.settings.Note, err = readStringOrFile(p.settings.Note); err != nil {
 			return fmt.Errorf("error while reading %s: %w", p.settings.Note, err)
 		}
+	}
+
+	if p.settings.ArtifactUrl, err = readStringOrFile(p.settings.ArtifactUrl); err != nil {
+		return fmt.Errorf("error while reading %s: %w", p.settings.ArtifactUrl, err)
 	}
 
 	if p.settings.Title != "" {
@@ -148,6 +153,7 @@ func (p *Plugin) Execute() error {
 		Note:                 p.settings.Note,
 		Overwrite:            p.settings.Overwrite,
 		GenerateReleaseNotes: p.settings.GenerateReleaseNotes,
+		ArtifactUrl:          p.settings.ArtifactUrl,
 	}
 
 	release, err := rc.buildRelease()

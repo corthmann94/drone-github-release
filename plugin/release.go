@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"net/url"
 
 	"github.com/google/go-github/v53/github"
 )
@@ -28,6 +29,7 @@ type releaseClient struct {
 	Note                 string
 	Overwrite            bool
 	GenerateReleaseNotes bool
+	ArtifactUrl			 string
 }
 
 func (rc *releaseClient) buildRelease() (*github.RepositoryRelease, error) {
@@ -137,6 +139,29 @@ func (rc *releaseClient) newRelease() (*github.RepositoryRelease, error) {
 
 	if *rr.GenerateReleaseNotes {
 		fmt.Printf("Release notes for %s will be automatically generated\n", rc.Tag)
+	}
+
+	// Use the artifact URL to construct a URL to the artifact based on the base version derived from the commit tag
+	// The artifact URL will be appended to existing Note content. If no artifact URL is specfied, skip appending
+
+    if (rc.ArtifactUrl != "") {
+		u, err := url.Parse(rc.ArtifactUrl)
+
+		if err != nil { return nil, fmt.Errorf("failed to parse the base URL") }
+
+		fmt.Printf("Using the base artifact URL of %s\n", rc.ArtifactUrl)
+
+		// Construct the base version from the commit tag
+		b := rc.Tag[0:5]
+
+		fmt.Printf("The base version is %s\n", b)
+
+		u.Path = path.Join(u.Path, b)
+
+		fmt.Printf("The artifact URL is %s\n", u.String())
+
+		// Append the link to the artifact to the release note
+		*rr.Body = *rr.Body + u.String()
 	}
 
 	release, _, err := rc.Client.Repositories.CreateRelease(rc.Context, rc.Owner, rc.Repo, rr)
